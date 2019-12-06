@@ -1,36 +1,31 @@
 import React from "react";
 
 import style from "./actionpanel.module.css";
+import { UP, DOWN } from "../../constants/actionMoves";
 
 import ActionButton from "../ActionButton";
 
-export default () => {
-  const goUp = () => {
-    console.log("UP");
-  };
-
-  const goDown = () => {
-    console.log("DOWN");
-  };
-
-  const goLeft = () => {
-    console.log("LEFT");
-  };
-
-  const goRight = () => {
-    console.log("RIGHT");
-  };
-
+export default ({ doMove, possibleMoves }) => {
   return (
     <div className={style.actionPanelMainDiv}>
       <div className={style.movementPanel}>
         <div className={style.lineCentered}>
-          <ActionButton name="Haut" onClick={() => goUp()} />
+          <ActionButton
+            name="Haut"
+            onClick={() => doMove("UP")}
+            disabled={possibleMoves.includes(UP)}
+          />
         </div>
         <div className={style.lineCentered}>
-          <ActionButton name="Gauche" onClick={() => goLeft()} />
-          <ActionButton name="Bas" onClick={() => goDown()} />
-          <ActionButton name="Droite" onClick={() => goRight()} />
+          <ActionButton name="Gauche" onClick={() => doMove("LEFT")} />
+
+          <ActionButton
+            name="Bas"
+            onClick={() => doMove("DOWN")}
+            disabled={possibleMoves.includes(DOWN)}
+          />
+
+          <ActionButton name="Droite" onClick={() => doMove("RIGHT")} />
         </div>
       </div>
       <div className={style.itemPanel}>
