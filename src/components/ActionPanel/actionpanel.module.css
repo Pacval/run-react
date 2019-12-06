@@ -1,0 +1,27 @@
+.actionPanelMainDiv {
+  height: 30%;
+  padding: 0 20%;
+  background-color: #c4c4c4;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.movementPanel {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lineCentered {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.itemPanel {
+  width: 60%;
+  display: flex;
+  align-items: center;
+}
