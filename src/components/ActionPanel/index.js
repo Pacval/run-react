@@ -13,7 +13,7 @@ export default ({ doMove, possibleMoves }) => {
           <ActionButton
             name="Haut"
             onClick={() => doMove("UP")}
-            disabled={possibleMoves.includes(UP)}
+            disabled={!possibleMoves.includes(UP)}
           />
         </div>
         <div className={style.lineCentered}>
@@ -22,7 +22,7 @@ export default ({ doMove, possibleMoves }) => {
           <ActionButton
             name="Bas"
             onClick={() => doMove("DOWN")}
-            disabled={possibleMoves.includes(DOWN)}
+            disabled={!possibleMoves.includes(DOWN)}
           />
 
           <ActionButton name="Droite" onClick={() => doMove("RIGHT")} />

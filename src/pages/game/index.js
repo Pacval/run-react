@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Layout from "../../components/Layout";
 import Playground from "../../components/Playground";
@@ -8,35 +8,50 @@ import { PLAYER, EMPTY, ENEMY, EXIT } from "../../constants/gameCaseTypes";
 import { UP, DOWN } from "../../constants/actionMoves";
 
 export default () => {
-  const map = [
-    {
-      index: 0,
-      data: [
-        { y: 0, x: 0, type: PLAYER, torch: false },
-        { y: 0, x: 1, type: EMPTY, torch: false },
-        { y: 0, x: 2, type: EXIT, torch: false }
-      ]
-    },
-    {
-      index: 1,
-      data: [
-        { y: 1, x: 0, type: EMPTY, torch: false },
-        { y: 1, x: 1, type: EMPTY, torch: false },
-        { y: 1, x: 2, type: EMPTY, torch: false }
-      ]
-    },
-    {
-      index: 2,
-      data: [
-        { y: 2, x: 0, type: ENEMY, torch: false },
-        { y: 2, x: 1, type: EMPTY, torch: false },
-        { y: 2, x: 2, type: EMPTY, torch: false }
-      ]
-    }
-  ];
+
+  const [player, setPlayer] = useState({ y: 0, x: 0 });
+  const [map, setMap] = useState([{
+    rowIndex: 0,
+    data: [
+      { colIndex: 0, type: PLAYER, torch: false },
+      { colIndex: 1, type: EMPTY, torch: false },
+      { colIndex: 2, type: EXIT, torch: false }
+    ]
+  },
+  {
+    rowIndex: 1,
+    data: [
+      { colIndex: 0, type: EMPTY, torch: false },
+      { colIndex: 1, type: EMPTY, torch: false },
+      { colIndex: 2, type: EMPTY, torch: false }
+    ]
+  },
+  {
+    rowIndex: 2,
+    data: [
+      { colIndex: 0, type: ENEMY, torch: false },
+      { colIndex: 1, type: EMPTY, torch: false },
+      { colIndex: 2, type: EMPTY, torch: false }
+    ]
+  }]);
+
+  useEffect(() => {
+    //const newMap = 
+    //setMap(/* nouvelle map */);
+  }, [player]);
 
   const handleMove = move => {
-    console.log(move);
+    switch (move) {
+      case UP:
+        setPlayer({ y: player.y - 1, x: player.x });
+        break;
+      case DOWN:
+        setPlayer({ y: player.y + 1, x: player.x });
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (

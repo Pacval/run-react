@@ -3,17 +3,16 @@ import React from "react";
 import style from "./playground.module.css";
 
 import GameCase from "../GameCase";
-import { PLAYER, EMPTY, ENEMY, EXIT } from "../../constants/gameCaseTypes";
 
 export default ({ map }) => {
   return (
     <div className={style.playgroundMainDiv}>
-      {map.map(row => {
+      {map.sort((a, b) => a.rowIndex - b.rowIndex).map(row => {
         return (
-          <div key={row.index} className={style.row}>
-            {row.data.map(gameCase => (
+          <div key={row.rowIndex} className={style.row}>
+            {row.data.sort((a, b) => a.colIndex - b.colIndex).map(gameCase => (
               <GameCase
-                key={gameCase.y + "." + gameCase.x}
+                key={gameCase.colIndex}
                 type={gameCase.type}
                 torch={gameCase.torch}
               />
