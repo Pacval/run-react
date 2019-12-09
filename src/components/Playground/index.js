@@ -7,12 +7,12 @@ import GameCase from "../GameCase";
 export default ({ map }) => {
   return (
     <div className={style.playgroundMainDiv}>
-      {map.sort((a, b) => a.rowIndex - b.rowIndex).map(row => {
+      {map.map((row, rowIndex) => {
         return (
-          <div key={row.rowIndex} className={style.row}>
-            {row.data.sort((a, b) => a.colIndex - b.colIndex).map(gameCase => (
+          <div key={rowIndex} className={style.row}>
+            {row.map((gameCase, colIndex) => (
               <GameCase
-                key={gameCase.colIndex}
+                key={colIndex}
                 type={gameCase.type}
                 torch={gameCase.torch}
               />

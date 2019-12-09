@@ -1,0 +1,16 @@
+.fullPage {
+  height: 100%;
+  width: 100%;
+  background-color: #d2d2d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playButton {
+  height: 100px;
+  width: 300px;
+  background-color: #8a8a8a;
+  border: 1px solid black;
+  font-size: 30px;
+}

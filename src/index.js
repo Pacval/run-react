@@ -1,12 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Router, Redirect } from "@reach/router";
 
 import "./styles/main.css";
 import * as serviceWorker from "./utils/serviceWorker";
 
-import GamePage from "./pages/game";
+import Game from "./pages/game";
+import SelectLevel from "./pages/select-level";
 
-const App = () => <GamePage />;
+const App = () => (
+  <Router>
+    <SelectLevel path="/levels" />
+    <Game path="/game/:levelId" />
+    <Redirection default />
+  </Router>
+);
+
+const Redirection = () => <Redirect to="/levels" noThrow />;
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
