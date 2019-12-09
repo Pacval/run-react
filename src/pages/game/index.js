@@ -20,12 +20,12 @@ import style from "./game.module.css";
 export default ({ location }) => {
   const initialMap = location.state.initialMap;
 
-  const [dimensions, ] = useState(initialMap.dimensions);
+  const [dimensions, setDimensions] = useState(initialMap.dimensions);
   const [player, setPlayer] = useState(initialMap.player);
-  const [exit, ] = useState(initialMap.exit);
-  const [enemies, ] = useState(initialMap.enemies);
-  const [obstacles, ] = useState(initialMap.obstacles);
-  const [torches, ] = useState(initialMap.torches);
+  const [exit, setExit] = useState(initialMap.exit);
+  const [enemies, setEnemies] = useState(initialMap.enemies);
+  const [obstacles, setObstacles] = useState(initialMap.obstacles);
+  const [torches, setTorches] = useState(initialMap.torches);
 
   const [map, setMap] = useState([]);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -87,6 +87,16 @@ export default ({ location }) => {
     setPossibleMoves(newPossibleMoves);
   }, [dimensions, player, enemies, exit, obstacles, torches]);
 
+  const resetGame = () => {
+    setDimensions(initialMap.dimensions);
+    setPlayer(initialMap.player);
+    setExit(initialMap.exit);
+    setEnemies(initialMap.enemies);
+    setObstacles(initialMap.obstacles);
+    setTorches(initialMap.torches);
+    setResult(PLAYING);
+  };
+
   const handleMove = move => {
     switch (move) {
       case UP:
@@ -111,9 +121,7 @@ export default ({ location }) => {
       {result === VICTORY && (
         <div className={style.victory}>
           <p>Vous avez gagné</p>
-          {/* <Link to="/game">
-            <button>Recommencer</button>
-          </Link> */}
+          <button onClick={() => resetGame()}>Recommencer</button>
           <Link to="/levels">
             <button>Quitter</button>
           </Link>
@@ -122,9 +130,7 @@ export default ({ location }) => {
       {result === DEFEAT && (
         <div className={style.victory}>
           <p>Vous vous êtes fait attraper</p>
-          {/* <Link to="/game">
-            <button>Recommencer</button>
-          </Link> */}
+          <button onClick={() => resetGame()}>Recommencer</button>
           <Link to="/levels">
             <button>Quitter</button>
           </Link>
