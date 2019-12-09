@@ -11,7 +11,7 @@ import SelectLevel from "./pages/select-level";
 const App = () => (
   <Router>
     <SelectLevel path="/levels" />
-    <Game path="/game/:levelId" />
+    <Game path="/game" />
     <Redirection default />
   </Router>
 );

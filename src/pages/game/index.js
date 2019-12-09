@@ -17,20 +17,15 @@ import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
 
 import style from "./game.module.css";
 
-export default ({ levelId }) => {
-  const row = 4;
-  const col = 4;
-  console.log(levelId);
+export default ({ location }) => {
+  const initialMap = location.state.initialMap;
 
-  const [player, setPlayer] = useState({ y: 0, x: 0 });
-  const [exit, setExit] = useState({ y: 0, x: 3 });
-  const [enemies, setEnemies] = useState([{ y: 3, x: 0 }]);
-  const [torches, setTorches] = useState([{ y: 0, x: 1 }]);
-  const [obstacles, setObstacles] = useState([
-    { y: 2, x: 0 },
-    { y: 2, x: 1 },
-    { y: 2, x: 2 }
-  ]);
+  const [dimensions, ] = useState(initialMap.dimensions);
+  const [player, setPlayer] = useState(initialMap.player);
+  const [exit, ] = useState(initialMap.exit);
+  const [enemies, ] = useState(initialMap.enemies);
+  const [obstacles, ] = useState(initialMap.obstacles);
+  const [torches, ] = useState(initialMap.torches);
 
   const [map, setMap] = useState([]);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -56,9 +51,9 @@ export default ({ levelId }) => {
     };
 
     const newMap = [];
-    for (var y = 0; y < row; y++) {
+    for (var y = 0; y < dimensions.row; y++) {
       newMap.push([]);
-      for (var x = 0; x < col; x++) {
+      for (var x = 0; x < dimensions.col; x++) {
         newMap[y].push({ type: getTypeCase(y, x), torch: isTorchOnCase() });
       }
     }
@@ -66,7 +61,6 @@ export default ({ levelId }) => {
 
     const newPossibleMoves = [];
     if (player.x === exit.x && player.y === exit.y) {
-      console.log("victoire");
       setResult(VICTORY);
     } else {
       if (
@@ -91,7 +85,7 @@ export default ({ levelId }) => {
       }
     }
     setPossibleMoves(newPossibleMoves);
-  }, [player, enemies, exit, obstacles, torches]);
+  }, [dimensions, player, enemies, exit, obstacles, torches]);
 
   const handleMove = move => {
     switch (move) {
@@ -117,9 +111,9 @@ export default ({ levelId }) => {
       {result === VICTORY && (
         <div className={style.victory}>
           <p>Vous avez gagné</p>
-          <Link to="/game">
+          {/* <Link to="/game">
             <button>Recommencer</button>
-          </Link>
+          </Link> */}
           <Link to="/levels">
             <button>Quitter</button>
           </Link>
@@ -128,9 +122,9 @@ export default ({ levelId }) => {
       {result === DEFEAT && (
         <div className={style.victory}>
           <p>Vous vous êtes fait attraper</p>
-          <Link to="/game">
+          {/* <Link to="/game">
             <button>Recommencer</button>
-          </Link>
+          </Link> */}
           <Link to="/levels">
             <button>Quitter</button>
           </Link>
