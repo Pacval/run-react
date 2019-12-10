@@ -5,6 +5,9 @@ import Layout from "../../components/Layout";
 import Playground from "../../components/Playground";
 import ActionPanel from "../../components/ActionPanel";
 
+import useLevels from "../../utils/useLevels";
+import style from "./game.module.css";
+
 import {
   PLAYER,
   EMPTY,
@@ -15,10 +18,10 @@ import {
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
 import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
 
-import style from "./game.module.css";
-
 export default ({ location }) => {
   const initialMap = location.state.initialMap;
+
+  const { levels, setLevels } = useLevels();
 
   const [dimensions, setDimensions] = useState(initialMap.dimensions);
   const [player, setPlayer] = useState(initialMap.player);
@@ -60,32 +63,61 @@ export default ({ location }) => {
     setMap(newMap);
 
     const newPossibleMoves = [];
-    if (player.x === exit.x && player.y === exit.y) {
-      setResult(VICTORY);
-    } else {
-      if (
-        !obstacles.some(item => item.y === player.y - 1 && item.x === player.x)
-      ) {
-        newPossibleMoves.push(UP);
-      }
-      if (
-        !obstacles.some(item => item.y === player.y + 1 && item.x === player.x)
-      ) {
-        newPossibleMoves.push(DOWN);
-      }
-      if (
-        !obstacles.some(item => item.y === player.y && item.x === player.x - 1)
-      ) {
-        newPossibleMoves.push(LEFT);
-      }
-      if (
-        !obstacles.some(item => item.y === player.y && item.x !== player.x + 1)
-      ) {
-        newPossibleMoves.push(RIGHT);
+
+    // ATTENTION on ne passe ici que quand la partie n'est pas finie. Sinon boucle infinie de render
+    if (result === PLAYING) {
+      // condition de victoire
+      if (player.x === exit.x && player.y === exit.y) {
+        setResult(VICTORY);
+        setLevels(
+          levels.map(item =>
+            item.id === initialMap.id ? { ...item, completed: true } : item
+          )
+        );
+      } else {
+        if (
+          !obstacles.some(
+            item => item.y === player.y - 1 && item.x === player.x
+          )
+        ) {
+          newPossibleMoves.push(UP);
+        }
+        if (
+          !obstacles.some(
+            item => item.y === player.y + 1 && item.x === player.x
+          )
+        ) {
+          newPossibleMoves.push(DOWN);
+        }
+        if (
+          !obstacles.some(
+            item => item.y === player.y && item.x === player.x - 1
+          )
+        ) {
+          newPossibleMoves.push(LEFT);
+        }
+        if (
+          !obstacles.some(
+            item => item.y === player.y && item.x !== player.x + 1
+          )
+        ) {
+          newPossibleMoves.push(RIGHT);
+        }
       }
     }
     setPossibleMoves(newPossibleMoves);
-  }, [dimensions, player, enemies, exit, obstacles, torches]);
+  }, [
+    dimensions,
+    player,
+    enemies,
+    exit,
+    obstacles,
+    torches,
+    result,
+    setLevels,
+    levels,
+    initialMap
+  ]);
 
   const resetGame = () => {
     setDimensions(initialMap.dimensions);
