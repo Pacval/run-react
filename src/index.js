@@ -7,13 +7,16 @@ import * as serviceWorker from "./utils/serviceWorker";
 
 import Game from "./pages/game";
 import SelectLevel from "./pages/select-level";
+import { LevelsProvider } from "./utils/useLevels";
 
 const App = () => (
-  <Router>
-    <SelectLevel path="/levels" />
-    <Game path="/game" />
-    <Redirection default />
-  </Router>
+  <LevelsProvider>
+    <Router>
+      <SelectLevel path="/levels" />
+      <Game path="/game" />
+      <Redirection default />
+    </Router>
+  </LevelsProvider>
 );
 
 const Redirection = () => <Redirect to="/levels" noThrow />;
