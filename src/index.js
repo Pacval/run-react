@@ -7,11 +7,13 @@ import * as serviceWorker from "./utils/serviceWorker";
 
 import Game from "./pages/game";
 import SelectLevel from "./pages/select-level";
+import Menu from "./pages/menu";
 import { LevelsProvider } from "./utils/useLevels";
 
 const App = () => (
   <LevelsProvider>
     <Router>
+      <Menu path="/" />
       <SelectLevel path="/levels" />
       <Game path="/game" />
       <Redirection default />
