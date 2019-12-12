@@ -7,7 +7,7 @@ import ActionButton from "../ActionButton";
 
 export default ({ doMove, possibleMoves }) => {
   return (
-    <div className={style.actionPanelMainDiv}>
+    <>
       <div className={style.movementPanel}>
         <div className={style.lineCentered}>
           <ActionButton
@@ -38,6 +38,6 @@ export default ({ doMove, possibleMoves }) => {
         <ActionButton name="Torche" disabled={!possibleMoves.includes(TORCH)} />
         <ActionButton name="Hache" disabled={!possibleMoves.includes(AXE)} />
       </div>
-    </div>
+    </>
   );
 };

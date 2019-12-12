@@ -7,25 +7,20 @@ import GameCase from "../GameCase";
 
 export default ({ map }) => {
   return (
-    <div className={style.playgroundMainDiv}>
-      <Link to="/levels">
-        <button>Quitter</button>
-      </Link>
-      <div className={style.gameDiv}>
-        {map.map((row, rowIndex) => {
-          return (
-            <div key={rowIndex} className={style.row}>
-              {row.map((gameCase, colIndex) => (
-                <GameCase
-                  key={colIndex}
-                  type={gameCase.type}
-                  torch={gameCase.torch}
-                />
-              ))}
-            </div>
-          );
-        })}
-      </div>
+    <div className={style.gameDiv}>
+      {map.map((row, rowIndex) => {
+        return (
+          <div key={rowIndex} className={style.row}>
+            {row.map((gameCase, colIndex) => (
+              <GameCase
+                key={colIndex}
+                type={gameCase.type}
+                torch={gameCase.torch}
+              />
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 };

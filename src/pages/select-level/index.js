@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "@reach/router"
 
-import style from "./selectlevel.module.css";
+import style from "./select-level.module.css";
 
 import PreviewLevel from "../../components/PreviewLevel";
 import useLevels from "../../utils/useLevels";

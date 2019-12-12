@@ -1,0 +1,16 @@
+.fullPage {
+  height: 100%;
+  width: 100%;
+  background-color: #d2d2d2;
+}
+
+.title {
+  margin: auto;
+  text-align: center;
+}
+
+.divLevels {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

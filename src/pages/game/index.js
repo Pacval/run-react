@@ -168,11 +168,16 @@ export default ({ location }) => {
           </Link>
         </div>
       )}
-      <Playground map={map} />
-      <ActionPanel
-        doMove={move => handleMove(move)}
-        possibleMoves={possibleMoves}
-      />
+      <div className={style.playgroundDiv}>
+        <Link to="/levels">Quitter</Link>
+        <Playground map={map} />
+      </div>
+      <div className={style.actionPanelDiv}>
+        <ActionPanel
+          doMove={move => handleMove(move)}
+          possibleMoves={possibleMoves}
+        />
+      </div>
     </Layout>
   );
 };
