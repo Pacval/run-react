@@ -5,9 +5,10 @@ import { Router, Redirect } from "@reach/router";
 import "./styles/main.css";
 import * as serviceWorker from "./utils/serviceWorker";
 
-import Game from "./pages/game";
-import SelectLevel from "./pages/select-level";
 import Menu from "./pages/menu";
+import SelectLevel from "./pages/select-level";
+import Game from "./pages/game";
+import CreateLevel from "./pages/create-level";
 import { LevelsProvider } from "./utils/useLevels";
 
 const App = () => (
@@ -16,6 +17,7 @@ const App = () => (
       <Menu path="/" />
       <SelectLevel path="/levels" />
       <Game path="/game" />
+      <CreateLevel path="/create-level" />
       <Redirection default />
     </Router>
   </LevelsProvider>

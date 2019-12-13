@@ -9,7 +9,7 @@ export default () => {
       <Link to="/levels" className={style.menuLink}>
         Jouer
       </Link>
-      <Link to="/" className={style.menuLink}>
+      <Link to="/create-level" className={style.menuLink}>
         Créer un niveau
       </Link>
     </div>

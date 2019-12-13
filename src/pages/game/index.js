@@ -8,13 +8,6 @@ import ActionPanel from "../../components/ActionPanel";
 import useLevels from "../../utils/useLevels";
 import style from "./game.module.css";
 
-import {
-  PLAYER,
-  EMPTY,
-  ENEMY,
-  EXIT,
-  OBSTACLE
-} from "../../constants/gameCaseTypes";
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
 import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
 
@@ -23,82 +16,48 @@ export default ({ location }) => {
 
   const { levels, setLevels } = useLevels();
 
-  const [dimensions, setDimensions] = useState(initialMap.dimensions);
-  const [player, setPlayer] = useState(initialMap.player);
-  const [exit, setExit] = useState(initialMap.exit);
-  const [enemies, setEnemies] = useState(initialMap.enemies);
-  const [obstacles, setObstacles] = useState(initialMap.obstacles);
-  const [torches, setTorches] = useState(initialMap.torches);
-
-  const [map, setMap] = useState([]);
+  const [map, setMap] = useState(initialMap);
   const [possibleMoves, setPossibleMoves] = useState([]);
   const [result, setResult] = useState(PLAYING);
 
   useEffect(() => {
-    const getTypeCase = (y, x) => {
-      if (obstacles.some(item => item.y === y && item.x === x)) {
-        return OBSTACLE;
-      } else if (enemies.some(item => item.y === y && item.x === x)) {
-        return ENEMY;
-      } else if (player.x === x && player.y === y) {
-        return PLAYER;
-      } else if (exit.x === x && exit.y === y) {
-        return EXIT;
-      } else {
-        return EMPTY;
-      }
-    };
-
-    const isTorchOnCase = (y, x) => {
-      return torches.some(item => item.y === y && item.x === x);
-    };
-
-    const newMap = [];
-    for (var y = 0; y < dimensions.row; y++) {
-      newMap.push([]);
-      for (var x = 0; x < dimensions.col; x++) {
-        newMap[y].push({ type: getTypeCase(y, x), torch: isTorchOnCase() });
-      }
-    }
-    setMap(newMap);
-
     const newPossibleMoves = [];
 
     // ATTENTION on ne passe ici que quand la partie n'est pas finie. Sinon boucle infinie de render
     if (result === PLAYING) {
       // condition de victoire
-      if (player.x === exit.x && player.y === exit.y) {
+      if (map.player.x === map.exit.x && map.player.y === map.exit.y) {
         setResult(VICTORY);
         setLevels(
           levels.map(item =>
-            item.id === initialMap.id ? { ...item, completed: true } : item
+            item.id === map.id ? { ...item, completed: true } : item
           )
         );
       } else {
         if (
-          !obstacles.some(
-            item => item.y === player.y - 1 && item.x === player.x
+          !map.obstacles.some(
+            item => item.y === map.player.y - 1 && item.x === map.player.x
           )
         ) {
           newPossibleMoves.push(UP);
         }
         if (
-          !obstacles.some(
-            item => item.y === player.y + 1 && item.x === player.x
+          !map.obstacles.some(
+            item => item.y === map.player.y + 1 && item.x === map.player.x
           )
         ) {
           newPossibleMoves.push(DOWN);
         }
         if (
-          !obstacles.some(
-            item => item.y === player.y && item.x === player.x - 1
+          !map.obstacles.some(
+            item => item.y === map.player.y && item.x === map.player.x - 1
           )
         ) {
           newPossibleMoves.push(LEFT);
         }
         if (
-          !obstacles.some(
-            item => item.y === player.y && item.x !== player.x + 1
+          !map.obstacles.some(
+            item => item.y === map.player.y && item.x !== map.player.x + 1
           )
         ) {
           newPossibleMoves.push(RIGHT);
@@ -106,42 +65,27 @@ export default ({ location }) => {
       }
     }
     setPossibleMoves(newPossibleMoves);
-  }, [
-    dimensions,
-    player,
-    enemies,
-    exit,
-    obstacles,
-    torches,
-    result,
-    setLevels,
-    levels,
-    initialMap
-  ]);
+  }, [map, levels, setLevels, result]);
 
   const resetGame = () => {
-    setDimensions(initialMap.dimensions);
-    setPlayer(initialMap.player);
-    setExit(initialMap.exit);
-    setEnemies(initialMap.enemies);
-    setObstacles(initialMap.obstacles);
-    setTorches(initialMap.torches);
+    setMap(initialMap);
+
     setResult(PLAYING);
   };
 
   const handleMove = move => {
     switch (move) {
       case UP:
-        setPlayer({ y: player.y - 1, x: player.x });
+        setMap({ ...map, player: { ...map.player, y: map.player.y - 1 } });
         break;
       case DOWN:
-        setPlayer({ y: player.y + 1, x: player.x });
+        setMap({ ...map, player: { ...map.player, y: map.player.y + 1 } });
         break;
       case LEFT:
-        setPlayer({ y: player.y, x: player.x - 1 });
+        setMap({ ...map, player: { ...map.player, x: map.player.x - 1 } });
         break;
       case RIGHT:
-        setPlayer({ y: player.y, x: player.x + 1 });
+        setMap({ ...map, player: { ...map.player, x: map.player.x + 1 } });
         break;
       default:
         break;
