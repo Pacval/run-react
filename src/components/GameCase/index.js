@@ -1,55 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import style from "./gamecase.module.css";
-import { PLAYER, OBSTACLE, ENEMY, EXIT, EMPTY } from "../../constants/gameCaseTypes";
 
-export default ({ row, col, map }) => {
+export default ({ row, col, map, onClick }) => {
 
-  const [type, setType] = useState(EMPTY);
-  const [torch, setTorch] = useState(false);
-
-  useEffect(() => {
+  const getImgSrc = () => {
     if (map.obstacles.some(item => item.y === row && item.x === col)) {
-      setType(OBSTACLE);
+      return "./img/obstacle.png";
     } else if (map.enemies.some(item => item.y === row && item.x === col)) {
-      setType(ENEMY);
+      return "./img/enemy.png";
     } else if (map.player.y === row && map.player.x === col) {
-      setType(PLAYER);
+      return "./img/player.png";
     } else if (map.exit.y === row && map.exit.x === col) {
-      setType(EXIT);
+      return "./img/exit.png";
     } else {
-      setType(EMPTY);
+      return "./img/empty.png";
     }
-
-    setTorch(map.torches.some(item => item.y === row && item.x === col));
-  });
+  }
+  const torch = map.torches.some(item => item.y === row && item.x === col);
+  const isSelected = !!map.selectedCase ? map.selectedCase.y === row && map.selectedCase.x === col : false;
 
   return (
-    <div className={style.caseMainDiv}>
-      {(type === OBSTACLE && (
-        <img
-          className={style.image}
-          src={require("./img/obstacle.png")}
-          alt=""
-        />
-      )) ||
-        (type === ENEMY && (
-          <img
-            className={style.image}
-            src={require("./img/enemy.png")}
-            alt=""
-          />
-        )) ||
-        (type === PLAYER && (
-          <img
-            className={style.image}
-            src={require("./img/player.png")}
-            alt=""
-          />
-        )) ||
-        (type === EXIT && (
-          <img className={style.image} src={require("./img/exit.png")} alt="" />
-        ))}
+    <div
+      className={[
+        style.caseMainDiv,
+        isSelected ? style.selected : ""
+      ].join(" ")}
+      onClick={onClick}
+    >
+      <img
+        className={style.image}
+        src={require(`${getImgSrc()}`)}
+        alt=""
+      />
     </div>
   );
 };

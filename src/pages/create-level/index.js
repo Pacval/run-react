@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "@reach/router"
 
 import style from "./create-level.module.css";
@@ -9,19 +9,11 @@ export default () => {
 
   const initialMap = {
     dimensions: { row: 3, col: 3 },
+    selectedCase: { row: undefined, col: undefined }, // attribut spécial pour la création de niveaux
     player: { y: undefined, x: undefined },
     exit: { y: undefined, x: undefined },
     enemies: [],
-    obstacles: [
-      { y: 0, x: 0 },
-      { y: 0, x: 1 },
-      { y: 0, x: 2 },
-      { y: 1, x: 0 },
-      { y: 1, x: 2 },
-      { y: 2, x: 0 },
-      { y: 2, x: 1 },
-      { y: 2, x: 2 }
-    ],
+    obstacles: [],
     torches: []
   };
 
@@ -31,6 +23,10 @@ export default () => {
     if (value >= 3 && value <= 10) {
       setMap({ ...map, dimensions: { ...map.dimensions, [name]: value } });
     }
+  }
+
+  const handleSelectCase = ({ row, col }) => {
+    setMap({ ...map, selectedCase: { y: row, x: col } });
   }
 
   return (
@@ -51,7 +47,7 @@ export default () => {
       </div>
       <div className={style.rightPanel}>
         <div className={style.playground}>
-          <Playground map={map} />
+          <Playground map={map} onClick={handleSelectCase} />
         </div>
         <div className={style.validate}>
           <button>Enregistrer ce niveau</button>

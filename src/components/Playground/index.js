@@ -4,7 +4,7 @@ import style from "./playground.module.css";
 
 import GameCase from "../GameCase";
 
-export default ({ map }) => {
+export default ({ map, onClick }) => {
   return (
     <>
       {[...new Array(map.dimensions.row)].map((row, rowIndex) => {
@@ -16,6 +16,7 @@ export default ({ map }) => {
                 row={rowIndex}
                 col={colIndex}
                 map={map}
+                onClick={() => onClick({ row: rowIndex, col: colIndex })}
               />)
             })}
           </div>

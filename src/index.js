@@ -23,7 +23,7 @@ const App = () => (
   </LevelsProvider>
 );
 
-const Redirection = () => <Redirect to="/levels" noThrow />;
+const Redirection = () => <Redirect to="/" noThrow />;
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
