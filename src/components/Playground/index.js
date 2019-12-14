@@ -35,7 +35,7 @@ export default ({ map, selectedCase, onClick }) => {
                 key={colIndex}
                 caseType={getCaseType({ row: rowIndex, col: colIndex })}
                 selected={isSelectedCase({ row: rowIndex, col: colIndex })}
-                onClick={onClick({ row: rowIndex, col: colIndex })}
+                onClick={() => onClick({ row: rowIndex, col: colIndex })}
               />)
             })}
           </div>

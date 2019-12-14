@@ -28,7 +28,7 @@ export default () => {
   }
 
   const handleSelectCase = ({ row, col }) => {
-    // setSelectedCase({ y: row, x: col });
+    setSelectedCase({ y: row, x: col });
   }
 
   const handleAddCaseEmpty = () => {
@@ -63,10 +63,10 @@ export default () => {
       return { ...map, exit: { y: undefined, x: undefined } };
 
     } else if (map.enemies.some(element => element.y === selectedCase.y && element.x === selectedCase.x)) {
-      return { ...map, enemies: map.enemies.filter(element => element.y !== selectedCase.y && element.x !== selectedCase.x) };
+      return { ...map, enemies: map.enemies.filter(element => element.y !== selectedCase.y || element.x !== selectedCase.x) };
 
     } else if (map.obstacles.some(element => element.y === selectedCase.y && element.x === selectedCase.x)) {
-      return { ...map, obstacles: map.obstacles.filter(element => element.y !== selectedCase.y && element.x !== selectedCase.x) };
+      return { ...map, obstacles: map.obstacles.filter(element => element.y !== selectedCase.y || element.x !== selectedCase.x) };
 
     } else {
       return map;
