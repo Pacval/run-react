@@ -4,12 +4,13 @@ import { Link } from "@reach/router"
 import style from "./create-level.module.css";
 
 import Playground from "../../components/Playground";
+import GameCase from "../../components/GameCase";
+import { PLAYER, EMPTY, EXIT, ENEMY, OBSTACLE } from "../../constants/gameCaseTypes";
 
 export default () => {
 
   const initialMap = {
     dimensions: { row: 3, col: 3 },
-    selectedCase: { row: undefined, col: undefined }, // attribut spécial pour la création de niveaux
     player: { y: undefined, x: undefined },
     exit: { y: undefined, x: undefined },
     enemies: [],
@@ -18,6 +19,7 @@ export default () => {
   };
 
   const [map, setMap] = useState(initialMap);
+  const [selectedCase, setSelectedCase] = useState({ y: 0, x: 0 });
 
   const handleChangeSize = ({ name, value }) => {
     if (value >= 3 && value <= 10) {
@@ -26,7 +28,49 @@ export default () => {
   }
 
   const handleSelectCase = ({ row, col }) => {
-    setMap({ ...map, selectedCase: { y: row, x: col } });
+    // setSelectedCase({ y: row, x: col });
+  }
+
+  const handleAddCaseEmpty = () => {
+    setMap(removePreviousCase());
+  }
+
+  const handleAddCasePlayer = () => {
+    const toto = removePreviousCase();
+    setMap({ ...toto, player: { y: selectedCase.y, x: selectedCase.x } });
+  }
+
+  const handleAddCaseExit = () => {
+    const toto = removePreviousCase();
+    setMap({ ...toto, exit: { y: selectedCase.y, x: selectedCase.x } });
+  }
+
+  const handleAddCaseEnemy = () => {
+    const toto = removePreviousCase();
+    setMap({ ...toto, enemies: map.enemies.concat({ y: selectedCase.y, x: selectedCase.x }) });
+  }
+
+  const handleAddCaseObstacle = () => {
+    const toto = removePreviousCase();
+    setMap({ ...toto, obstacles: map.obstacles.concat({ y: selectedCase.y, x: selectedCase.x }) });
+  }
+
+  const removePreviousCase = () => {
+    if (map.player.y === selectedCase.y && map.player.x === selectedCase.x) {
+      return { ...map, player: { y: undefined, x: undefined } };
+
+    } else if (map.exit.y === selectedCase.y && map.exit.x === selectedCase.x) {
+      return { ...map, exit: { y: undefined, x: undefined } };
+
+    } else if (map.enemies.some(element => element.y === selectedCase.y && element.x === selectedCase.x)) {
+      return { ...map, enemies: map.enemies.filter(element => element.y !== selectedCase.y && element.x !== selectedCase.x) };
+
+    } else if (map.obstacles.some(element => element.y === selectedCase.y && element.x === selectedCase.x)) {
+      return { ...map, obstacles: map.obstacles.filter(element => element.y !== selectedCase.y && element.x !== selectedCase.x) };
+
+    } else {
+      return map;
+    }
   }
 
   return (
@@ -44,10 +88,16 @@ export default () => {
           <button onClick={() => handleChangeSize({ name: "col", value: map.dimensions.col + 1 })}>+</button>
         </label>
 
+        <GameCase caseType={EMPTY} onClick={handleAddCaseEmpty} />
+        <GameCase caseType={PLAYER} onClick={handleAddCasePlayer} />
+        <GameCase caseType={EXIT} onClick={handleAddCaseExit} />
+        <GameCase caseType={ENEMY} onClick={handleAddCaseEnemy} />
+        <GameCase caseType={OBSTACLE} onClick={handleAddCaseObstacle} />
+
       </div>
       <div className={style.rightPanel}>
         <div className={style.playground}>
-          <Playground map={map} onClick={handleSelectCase} />
+          <Playground map={map} selectedCase={selectedCase} onClick={handleSelectCase} />
         </div>
         <div className={style.validate}>
           <button>Enregistrer ce niveau</button>
