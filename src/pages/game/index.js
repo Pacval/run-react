@@ -34,16 +34,36 @@ export default ({ location }) => {
           )
         );
       } else {
-        if (map.player.y > 0 && !map.obstacles.some(item => item.y === map.player.y - 1 && item.x === map.player.x)) {
+        if (
+          map.player.y > 0 &&
+          !map.obstacles.some(
+            item => item.y === map.player.y - 1 && item.x === map.player.x
+          )
+        ) {
           newPossibleMoves.push(UP);
         }
-        if (map.player.y < map.dimensions.row - 1 && !map.obstacles.some(item => item.y === map.player.y + 1 && item.x === map.player.x)) {
+        if (
+          map.player.y < map.dimensions.row - 1 &&
+          !map.obstacles.some(
+            item => item.y === map.player.y + 1 && item.x === map.player.x
+          )
+        ) {
           newPossibleMoves.push(DOWN);
         }
-        if (map.player.x > 0 && !map.obstacles.some(item => item.y === map.player.y && item.x === map.player.x - 1)) {
+        if (
+          map.player.x > 0 &&
+          !map.obstacles.some(
+            item => item.y === map.player.y && item.x === map.player.x - 1
+          )
+        ) {
           newPossibleMoves.push(LEFT);
         }
-        if (map.player.x < map.dimensions.col - 1 && !map.obstacles.some(item => item.y === map.player.y && item.x !== map.player.x + 1)) {
+        if (
+          map.player.x < map.dimensions.col - 1 &&
+          !map.obstacles.some(
+            item => item.y === map.player.y && item.x === map.player.x + 1
+          )
+        ) {
           newPossibleMoves.push(RIGHT);
         }
       }

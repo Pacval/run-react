@@ -3,13 +3,16 @@ import ReactDOM from "react-dom";
 import { Router, Redirect } from "@reach/router";
 
 import "./styles/main.css";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 import * as serviceWorker from "./utils/serviceWorker";
+import { LevelsProvider } from "./utils/useLevels";
 
 import Menu from "./pages/menu";
 import SelectLevel from "./pages/select-level";
 import Game from "./pages/game";
 import CreateLevel from "./pages/create-level";
-import { LevelsProvider } from "./utils/useLevels";
+import TestGame from "./pages/test-game";
 
 const App = () => (
   <LevelsProvider>
@@ -18,6 +21,7 @@ const App = () => (
       <SelectLevel path="/levels" />
       <Game path="/game" />
       <CreateLevel path="/create-level" />
+      <TestGame path="/test-game" />
       <Redirection default />
     </Router>
   </LevelsProvider>
