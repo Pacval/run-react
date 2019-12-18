@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, navigate } from "@reach/router";
 import { confirmAlert } from "react-confirm-alert";
+import Alert from "react-s-alert";
 
 import style from "./create-level.module.css";
 
@@ -138,20 +139,18 @@ export default ({ location }) => {
       map.player.x >= map.dimensions.col ||
       map.player.y >= map.dimensions.row
     ) {
-      // NotificationManager.error(
-      //   "Votre niveau doit contenir une case joueur",
-      //   "Pas de joueur"
-      // );
+      Alert.error("Votre niveau doit contenir une case JOUEUR", {
+        timeout: 2000
+      });
     } else if (
       map.exit.x === null ||
       map.exit.y === null ||
       map.exit.x >= map.dimensions.col ||
       map.exit.y >= map.dimensions.row
     ) {
-      // NotificationManager.error(
-      //   "Votre niveau doit contenir une case sortie",
-      //   "Pas de sortie"
-      // );
+      Alert.error("Votre niveau doit contenir une case SORTIE", {
+        timeout: 2000
+      });
     } else {
       const filteredLevel = {
         dimensions: { ...map.dimensions },

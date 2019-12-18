@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, navigate } from "@reach/router";
+import Alert from "react-s-alert";
 
 import Layout from "../../components/Layout";
 import Playground from "../../components/Playground";
@@ -99,6 +100,12 @@ export default ({ location }) => {
     };
 
     setLevels(levels.concat(levelToSave));
+    Alert.success(
+      "Votre niveau a été enregistré ! Numéro : " + levelToSave.number,
+      {
+        timeout: 2000
+      }
+    );
     navigate("/levels");
   };
 

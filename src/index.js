@@ -1,9 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Redirect } from "@reach/router";
+import Alert from "react-s-alert";
 
 import "./styles/main.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import "react-s-alert/dist/s-alert-default.css";
+import "react-s-alert/dist/s-alert-css-effects/scale.css";
 
 import * as serviceWorker from "./utils/serviceWorker";
 import { LevelsProvider } from "./utils/useLevels";
@@ -24,6 +27,7 @@ const App = () => (
       <TestGame path="/test-game" />
       <Redirection default />
     </Router>
+    <Alert stack={{ limit: 3 }} effect="scale" />
   </LevelsProvider>
 );
 
