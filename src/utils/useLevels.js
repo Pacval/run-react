@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { NOT_REQUESTED, LOADING, SUCCESS, FAILURE } from "../constants/api";
 
 const levelsProvider = createContext();
 const { Provider, Consumer } = levelsProvider;
@@ -6,44 +7,32 @@ const { Provider, Consumer } = levelsProvider;
 const initialLevels = [];
 
 export const LevelsProvider = ({ children }) => {
+  const [status, setStatus] = useState(NOT_REQUESTED);
   const [levels, setLevels] = useState(initialLevels);
 
   useEffect(() => {
-    setLevels([
-      {
-        id: 123,
-        number: 1,
-        completed: false,
-        dimensions: { row: 4, col: 4 },
-        player: { y: 0, x: 0 },
-        exit: { y: 0, x: 3 },
-        enemies: [{ y: 3, x: 0 }],
-        obstacles: [
-          { y: 2, x: 0 },
-          { y: 2, x: 1 },
-          { y: 2, x: 2 }
-        ],
-        torches: [{ y: 0, x: 1 }]
-      },
-      {
-        id: 1000,
-        number: 2,
-        completed: false,
-        dimensions: { row: 4, col: 4 },
-        player: { y: 0, x: 3 },
-        exit: { y: 0, x: 0 },
-        enemies: [{ y: 3, x: 0 }],
-        obstacles: [
-          { y: 2, x: 0 },
-          { y: 2, x: 1 },
-          { y: 2, x: 2 }
-        ],
-        torches: [{ y: 0, x: 1 }]
+    (async () => {
+      setStatus(LOADING);
+      const response = await fetch("http://localhost:8000/levels")
+        .then(r => {
+          if (r.status === 200) {
+            return r.json().then(d => ({ ...d, ok: true }));
+          }
+          return { ok: false };
+        })
+        .catch(() => ({ ok: false }));
+
+      if (response.ok) {
+        setStatus(SUCCESS);
+        setLevels(response.payload);
+      } else {
+        setStatus(FAILURE);
       }
-    ]);
+    })();
+    setLevels([]);
   }, []);
 
-  return <Provider value={{ levels, setLevels }}>{children}</Provider>;
+  return <Provider value={{ levels, setLevels, status }}>{children}</Provider>;
 };
 
 export const LevelsConsumer = Consumer;

@@ -1,0 +1,24 @@
+// /* TODO */ //
+
+VISUEL
+- créer pixelarts
+- revoir css pour mieux placer boutons retour
+- améliorer écran création niveau
+- page crédits (librairies + lien github / linkedin)
+
+
+GAMEPLAY
+- implémenter IA ennemi
+- différents ennemis / différentes IA
+
+
+
+
+ASPECT DU JEU
+- séparer niveaux histoire et niveaux créer par joueurs
+
+
+
+
+TECHNIQUE
+- création utilisateur (sauvegarde + niveaux créés à son nom)

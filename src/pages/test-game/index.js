@@ -11,11 +11,12 @@ import style from "./test-game.module.css";
 
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
 import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
+import axios from "axios";
 
 export default ({ location }) => {
   const level = location.state.level;
 
-  const { levels, setLevels } = useLevels();
+  const { levels } = useLevels();
 
   const [map, setMap] = useState(level);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -99,14 +100,25 @@ export default ({ location }) => {
       ...level
     };
 
-    setLevels(levels.concat(levelToSave));
-    Alert.success(
-      "Votre niveau a été enregistré ! Numéro : " + levelToSave.number,
-      {
-        timeout: 2000
-      }
-    );
-    navigate("/levels");
+    axios
+      .post("http://localhost:8000/levels", levelToSave)
+      .then(res => {
+        Alert.success(
+          "Votre niveau a été enregistré ! Numéro : " + levelToSave.number,
+          {
+            timeout: 2000
+          }
+        );
+        navigate("/levels");
+      })
+      .catch(err => {
+        Alert.error(
+          "Erreur lors de l'enregistrement de votre niveau : " + err,
+          {
+            timeout: 2000
+          }
+        );
+      });
   };
 
   return (
