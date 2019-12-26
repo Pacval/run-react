@@ -14,7 +14,7 @@ const initialLevels = [];
 export const CommunityLevelsProvider = ({ children }) => {
   const [status, setStatus] = useState(NOT_REQUESTED);
   const [levels, setLevels] = useState(initialLevels);
-  const [reload, setReload] = useState({});
+  const [dummy, setDummy] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -36,10 +36,14 @@ export const CommunityLevelsProvider = ({ children }) => {
       }
     })();
     setLevels([]);
-  }, [reload]);
+  }, [dummy]);
+
+  const reload = () => {
+    setDummy({});
+  };
 
   return (
-    <Provider value={{ levels, setLevels, status, setReload }}>
+    <Provider value={{ levels, setLevels, status, reload }}>
       {children}
     </Provider>
   );

@@ -16,7 +16,7 @@ import axios from "axios";
 export default ({ location }) => {
   const level = location.state.level;
 
-  const { levels, setReload } = useCommunityLevels();
+  const { levels, reload } = useCommunityLevels();
 
   const [map, setMap] = useState(level);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -108,7 +108,7 @@ export default ({ location }) => {
         Alert.success("Votre niveau a été enregistré !", {
           timeout: 2000
         });
-        setReload({});
+        reload();
         navigate("/select-community-level");
       })
       .catch(err => {
