@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 
 import style from "./select-story-level.module.css";
 
-import { SUCCESS, LOADING, FAILURE } from "../../constants/api";
+import { SUCCESS, LOADING, FAILURE } from "../../constants/apiStates";
 import useStoryLevels from "../../utils/useStoryLevels";
 import PreviewStoryLevel from "../../components/PreviewStoryLevel";
 

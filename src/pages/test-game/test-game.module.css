@@ -1,4 +1,21 @@
-.victory {
+.savePopup {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 15% auto;
+  width: 400px;
+  height: 200px;
+  background-color: #918d6e;
+  border: 2px solid black;
+}
+
+.marginTop {
+  margin-top: 20px;
+}
+
+.failure {
   position: absolute;
   z-index: 10;
   left: 0;

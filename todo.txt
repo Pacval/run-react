@@ -15,7 +15,6 @@ GAMEPLAY
 
 
 ASPECT DU JEU
-- séparer niveaux histoire et niveaux créer par joueurs
 
 
 

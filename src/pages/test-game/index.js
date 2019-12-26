@@ -6,7 +6,7 @@ import Layout from "../../components/Layout";
 import Playground from "../../components/Playground";
 import ActionPanel from "../../components/ActionPanel";
 
-import useStoryLevels from "../../utils/useStoryLevels";
+import useCommunityLevels from "../../utils/useCommunityLevels";
 import style from "./test-game.module.css";
 
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
@@ -16,11 +16,12 @@ import axios from "axios";
 export default ({ location }) => {
   const level = location.state.level;
 
-  const { levels } = useStoryLevels();
+  const { levels, setReload } = useCommunityLevels();
 
   const [map, setMap] = useState(level);
   const [possibleMoves, setPossibleMoves] = useState([]);
   const [result, setResult] = useState(PLAYING);
+  const [levelName, setLevelName] = useState("");
 
   useEffect(() => {
     const newPossibleMoves = [];
@@ -95,21 +96,20 @@ export default ({ location }) => {
   const saveLevel = () => {
     const levelToSave = {
       id: Math.max(...levels.map(o => o.id)) + 1,
-      number: Math.max(...levels.map(o => o.number)) + 1,
-      completed: false,
-      ...level
+      creator: "toto",
+      name: levelName,
+      content: level,
+      likes: 0
     };
 
     axios
-      .post("http://localhost:8000/levels", levelToSave)
+      .post("http://localhost:8000/community-level", levelToSave)
       .then(res => {
-        Alert.success(
-          "Votre niveau a été enregistré ! Numéro : " + levelToSave.number,
-          {
-            timeout: 2000
-          }
-        );
-        navigate("/levels");
+        Alert.success("Votre niveau a été enregistré !", {
+          timeout: 2000
+        });
+        setReload({});
+        navigate("/select-community-level");
       })
       .catch(err => {
         Alert.error(
@@ -124,21 +124,29 @@ export default ({ location }) => {
   return (
     <Layout>
       {result === VICTORY && (
-        <div className={style.victory}>
+        <div className={style.savePopup}>
           <p>
-            Vous avez valider le niveau. Souhaitez-vous l'enregistrer ? Vous
+            Vous avez validé le niveau. Souhaitez-vous l'enregistrer ? Vous
             pouvez aussi continuer à l'éditer
           </p>
           <button onClick={() => resetGame()}>Recommencer</button>
           <Link to="/create-level" state={{ level: level }}>
             <button>Retour édition</button>
           </Link>
-          &nbsp;
-          <button onClick={saveLevel}>Enregistrer ce niveau</button>
+          <div className={style.marginTop}>
+            <label>Nom du niveau : </label>
+            <input
+              value={levelName}
+              onChange={event => setLevelName(event.target.value)}
+            ></input>
+          </div>
+          <button onClick={saveLevel} disabled={levelName === ""}>
+            Enregistrer ce niveau
+          </button>
         </div>
       )}
       {result === DEFEAT && (
-        <div className={style.victory}>
+        <div className={style.failure}>
           <p>Vous n'avez pas réussi à valider le niveau</p>
           <button onClick={() => resetGame()}>Recommencer</button>
           <Link to="/create-level" state={{ level: level }}>

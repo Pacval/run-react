@@ -1,5 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { NOT_REQUESTED, LOADING, SUCCESS, FAILURE } from "../constants/api";
+import {
+  NOT_REQUESTED,
+  LOADING,
+  SUCCESS,
+  FAILURE
+} from "../constants/apiStates";
 
 const levelsProvider = createContext();
 const { Provider, Consumer } = levelsProvider;
@@ -9,6 +14,7 @@ const initialLevels = [];
 export const CommunityLevelsProvider = ({ children }) => {
   const [status, setStatus] = useState(NOT_REQUESTED);
   const [levels, setLevels] = useState(initialLevels);
+  const [reload, setReload] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -30,9 +36,13 @@ export const CommunityLevelsProvider = ({ children }) => {
       }
     })();
     setLevels([]);
-  }, []);
+  }, [reload]);
 
-  return <Provider value={{ levels, setLevels, status }}>{children}</Provider>;
+  return (
+    <Provider value={{ levels, setLevels, status, setReload }}>
+      {children}
+    </Provider>
+  );
 };
 
 export const CommunityLevelsConsumer = Consumer;

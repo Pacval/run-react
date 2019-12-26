@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import style from "./select-community-level.module.css";
 
 import useCommunityLevels from "../../utils/useCommunityLevels";
-import { SUCCESS, LOADING, FAILURE } from "../../constants/api";
+import { SUCCESS, LOADING, FAILURE } from "../../constants/apiStates";
 import PreviewCommunityLevel from "../../components/PreviewCommunityLevel";
 
 export default () => {
