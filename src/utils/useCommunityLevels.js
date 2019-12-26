@@ -6,14 +6,14 @@ const { Provider, Consumer } = levelsProvider;
 
 const initialLevels = [];
 
-export const StoryLevelsProvider = ({ children }) => {
+export const CommunityLevelsProvider = ({ children }) => {
   const [status, setStatus] = useState(NOT_REQUESTED);
   const [levels, setLevels] = useState(initialLevels);
 
   useEffect(() => {
     (async () => {
       setStatus(LOADING);
-      const response = await fetch("http://localhost:8000/story-level")
+      const response = await fetch("http://localhost:8000/community-level")
         .then(r => {
           if (r.status === 200) {
             return r.json().then(d => ({ ...d, ok: true }));
@@ -35,6 +35,6 @@ export const StoryLevelsProvider = ({ children }) => {
   return <Provider value={{ levels, setLevels, status }}>{children}</Provider>;
 };
 
-export const StoryLevelsConsumer = Consumer;
+export const CommunityLevelsConsumer = Consumer;
 
 export default () => useContext(levelsProvider);

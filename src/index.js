@@ -10,24 +10,30 @@ import "react-s-alert/dist/s-alert-css-effects/scale.css";
 
 import * as serviceWorker from "./utils/serviceWorker";
 import { StoryLevelsProvider } from "./utils/useStoryLevels";
+import { CommunityLevelsProvider } from "./utils/useCommunityLevels";
 
 import Menu from "./pages/menu";
-import SelectLevelStory from "./pages/select-story-level";
 import Game from "./pages/game";
 import CreateLevel from "./pages/create-level";
 import TestGame from "./pages/test-game";
+import SelectCommunityLevel from "./pages/select-community-level";
+import SelectStoryLevel from "./pages/select-story-level";
 
 const App = () => (
   <StoryLevelsProvider>
-    <Router>
-      <Menu path="/" />
-      <SelectLevelStory path="/select-story-level" />
-      <Game path="/game" />
-      <CreateLevel path="/create-level" />
-      <TestGame path="/test-game" />
-      <Redirection default />
-    </Router>
-    <Alert stack={{ limit: 3 }} effect="scale" />
+    <CommunityLevelsProvider>
+      <Router>
+        <Menu path="/" />
+        <SelectStoryLevel path="/select-story-level" />
+        <SelectCommunityLevel path="/select-community-level" />
+        <Game path="/game" />
+        <CreateLevel path="/create-level" />
+        <TestGame path="/test-game" />
+        <Redirection default />
+      </Router>
+
+      <Alert stack={{ limit: 3 }} effect="scale" />
+    </CommunityLevelsProvider>
   </StoryLevelsProvider>
 );
 

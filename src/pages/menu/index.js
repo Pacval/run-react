@@ -9,7 +9,7 @@ export default () => {
       <Link to="/select-story-level" className={style.menuLink}>
         Jouer (histoire)
       </Link>
-      <Link to="/select-level-user" className={style.menuLink}>
+      <Link to="/select-community-level" className={style.menuLink}>
         Jouer (niveaux&nbsp;communauté)
       </Link>
       <Link to="/create-level" className={style.menuLink}>
