@@ -9,26 +9,26 @@ import "react-s-alert/dist/s-alert-default.css";
 import "react-s-alert/dist/s-alert-css-effects/scale.css";
 
 import * as serviceWorker from "./utils/serviceWorker";
-import { LevelsProvider } from "./utils/useLevels";
+import { StoryLevelsProvider } from "./utils/useStoryLevels";
 
 import Menu from "./pages/menu";
-import SelectLevel from "./pages/select-level";
+import SelectLevelStory from "./pages/select-story-level";
 import Game from "./pages/game";
 import CreateLevel from "./pages/create-level";
 import TestGame from "./pages/test-game";
 
 const App = () => (
-  <LevelsProvider>
+  <StoryLevelsProvider>
     <Router>
       <Menu path="/" />
-      <SelectLevel path="/levels" />
+      <SelectLevelStory path="/select-story-level" />
       <Game path="/game" />
       <CreateLevel path="/create-level" />
       <TestGame path="/test-game" />
       <Redirection default />
     </Router>
     <Alert stack={{ limit: 3 }} effect="scale" />
-  </LevelsProvider>
+  </StoryLevelsProvider>
 );
 
 const Redirection = () => <Redirect to="/" noThrow />;

@@ -5,16 +5,15 @@ import Layout from "../../components/Layout";
 import Playground from "../../components/Playground";
 import ActionPanel from "../../components/ActionPanel";
 
-import useLevels from "../../utils/useLevels";
 import style from "./game.module.css";
 
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
 import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
+import { STORY } from "../../constants/levelTypes";
 
 export default ({ location }) => {
+  const origin = location.state.origin;
   const initialMap = location.state.initialMap;
-
-  const { levels, setLevels } = useLevels();
 
   const [map, setMap] = useState(initialMap);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -28,11 +27,6 @@ export default ({ location }) => {
       // condition de victoire
       if (map.player.x === map.exit.x && map.player.y === map.exit.y) {
         setResult(VICTORY);
-        setLevels(
-          levels.map(item =>
-            item.id === map.id ? { ...item, completed: true } : item
-          )
-        );
       } else {
         if (
           map.player.y > 0 &&
@@ -69,7 +63,7 @@ export default ({ location }) => {
       }
     }
     setPossibleMoves(newPossibleMoves);
-  }, [map, levels, setLevels, result]);
+  }, [map, result]);
 
   const resetGame = () => {
     setMap(initialMap);
@@ -101,7 +95,13 @@ export default ({ location }) => {
         <div className={style.victory}>
           <p>Vous avez gagné</p>
           <button onClick={() => resetGame()}>Recommencer</button>
-          <Link to="/levels">
+          <Link
+            to={
+              origin === STORY
+                ? "/select-story-level"
+                : "/select-community-level"
+            }
+          >
             <button>Quitter</button>
           </Link>
         </div>
@@ -110,13 +110,25 @@ export default ({ location }) => {
         <div className={style.victory}>
           <p>Vous vous êtes fait attraper</p>
           <button onClick={() => resetGame()}>Recommencer</button>
-          <Link to="/levels">
+          <Link
+            to={
+              origin === STORY
+                ? "/select-story-level"
+                : "/select-community-level"
+            }
+          >
             <button>Quitter</button>
           </Link>
         </div>
       )}
       <div className={style.playgroundDiv}>
-        <Link to="/levels">Quitter</Link>
+        <Link
+          to={
+            origin === STORY ? "/select-story-level" : "/select-community-level"
+          }
+        >
+          Quitter
+        </Link>
         <Playground map={map} />
       </div>
       <div className={style.actionPanelDiv}>

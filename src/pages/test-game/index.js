@@ -6,7 +6,7 @@ import Layout from "../../components/Layout";
 import Playground from "../../components/Playground";
 import ActionPanel from "../../components/ActionPanel";
 
-import useLevels from "../../utils/useLevels";
+import useStoryLevels from "../../utils/useStoryLevels";
 import style from "./test-game.module.css";
 
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
@@ -16,7 +16,7 @@ import axios from "axios";
 export default ({ location }) => {
   const level = location.state.level;
 
-  const { levels } = useLevels();
+  const { levels } = useStoryLevels();
 
   const [map, setMap] = useState(level);
   const [possibleMoves, setPossibleMoves] = useState([]);
