@@ -15,6 +15,9 @@ export default () => {
       <Link to="/create-level" className={style.menuLink}>
         Créer un niveau
       </Link>
+      <Link to="/profile" className={style.menuLink}>
+        Profil
+      </Link>
     </div>
   );
 };

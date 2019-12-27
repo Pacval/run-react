@@ -18,6 +18,7 @@ import CreateLevel from "./pages/create-level";
 import TestGame from "./pages/test-game";
 import SelectCommunityLevel from "./pages/select-community-level";
 import SelectStoryLevel from "./pages/select-story-level";
+import Profile from "./pages/profile";
 
 const App = () => (
   <StoryLevelsProvider>
@@ -29,6 +30,7 @@ const App = () => (
         <Game path="/game" />
         <CreateLevel path="/create-level" />
         <TestGame path="/test-game" />
+        <Profile path="/profile" />
         <Redirection default />
       </Router>
 
