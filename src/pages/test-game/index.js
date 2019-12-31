@@ -16,7 +16,7 @@ import axios from "axios";
 export default ({ location }) => {
   const level = location.state.level;
 
-  const { levels, reload } = useCommunityLevels();
+  const { reload } = useCommunityLevels();
 
   const [map, setMap] = useState(level);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -95,11 +95,9 @@ export default ({ location }) => {
 
   const saveLevel = () => {
     const levelToSave = {
-      id: Math.max(...levels.map(o => o.id)) + 1,
-      creator: "toto",
       name: levelName,
-      content: level,
-      likes: 0
+      creator: "toto",
+      content: JSON.stringify(level)
     };
 
     axios

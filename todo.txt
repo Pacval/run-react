@@ -10,7 +10,7 @@ VISUEL
 GAMEPLAY
 - implémenter IA ennemi
 - différents ennemis / différentes IA
-
+- touches claviers
 
 
 
