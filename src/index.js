@@ -11,6 +11,7 @@ import "react-s-alert/dist/s-alert-css-effects/scale.css";
 import * as serviceWorker from "./utils/serviceWorker";
 import { StoryLevelsProvider } from "./utils/useStoryLevels";
 import { CommunityLevelsProvider } from "./utils/useCommunityLevels";
+import { UserProvider } from "./utils/useUser";
 
 import Menu from "./pages/menu";
 import Game from "./pages/game";
@@ -21,22 +22,24 @@ import SelectStoryLevel from "./pages/select-story-level";
 import Profile from "./pages/profile";
 
 const App = () => (
-  <StoryLevelsProvider>
-    <CommunityLevelsProvider>
-      <Router>
-        <Menu path="/" />
-        <SelectStoryLevel path="/select-story-level" />
-        <SelectCommunityLevel path="/select-community-level" />
-        <Game path="/game" />
-        <CreateLevel path="/create-level" />
-        <TestGame path="/test-game" />
-        <Profile path="/profile" />
-        <Redirection default />
-      </Router>
+  <UserProvider>
+    <StoryLevelsProvider>
+      <CommunityLevelsProvider>
+        <Router>
+          <Menu path="/" />
+          <SelectStoryLevel path="/select-story-level" />
+          <SelectCommunityLevel path="/select-community-level" />
+          <Game path="/game" />
+          <CreateLevel path="/create-level" />
+          <TestGame path="/test-game" />
+          <Profile path="/profile" />
+          <Redirection default />
+        </Router>
 
-      <Alert stack={{ limit: 3 }} effect="scale" />
-    </CommunityLevelsProvider>
-  </StoryLevelsProvider>
+        <Alert stack={{ limit: 3 }} effect="scale" />
+      </CommunityLevelsProvider>
+    </StoryLevelsProvider>
+  </UserProvider>
 );
 
 const Redirection = () => <Redirect to="/" noThrow />;

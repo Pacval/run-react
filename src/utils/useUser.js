@@ -2,30 +2,32 @@ import React, { createContext, useState, useContext } from "react";
 import Axios from "axios";
 import Alert from "react-s-alert";
 
-const levelsProvider = createContext();
-const { Provider, Consumer } = levelsProvider;
+const userProvider = createContext();
+const { Provider, Consumer } = userProvider;
 
-export const StoryLevelsProvider = ({ children }) => {
-  const [username, setUsername] = useState(null);
+const noUser = "";
+
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(noUser);
 
   const authenticate = ({ username, password }) => {
-    Axios.get("http://localhost:8000/authenticate", {
-      username: username,
-      password: password
-    })
+    Axios.post("http://localhost:8000/authenticate", { username, password })
       .then(res => {
-        setUsername(res);
+        setUser(res);
       })
       .catch(err => {
-        Alert.error("Erreur lors de l'authentification : " + err, {
-          timeout: 2000
-        });
+        Alert.error(
+          "Erreur lors de l'authentification : " + err.response.data.message,
+          {
+            timeout: 2000
+          }
+        );
       });
   };
 
-  return <Provider value={{ username, authenticate }}>{children}</Provider>;
+  return <Provider value={{ user, authenticate }}>{children}</Provider>;
 };
 
 export const StoryLevelsConsumer = Consumer;
 
-export default () => useContext(levelsProvider);
+export default () => useContext(userProvider);
