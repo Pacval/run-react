@@ -5,7 +5,7 @@ import { FaRedo } from "react-icons/fa";
 import style from "./select-community-level.module.css";
 
 import useCommunityLevels from "../../utils/useCommunityLevels";
-import { SUCCESS, LOADING, FAILURE } from "../../constants/apiStates";
+import { SUCCESS, LOADING, FAILURE } from "../../constants/api";
 import PreviewCommunityLevel from "../../components/PreviewCommunityLevel";
 
 export default () => {

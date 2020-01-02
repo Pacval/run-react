@@ -1,10 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import {
-  NOT_REQUESTED,
-  LOADING,
-  SUCCESS,
-  FAILURE
-} from "../constants/apiStates";
+import { NOT_REQUESTED, LOADING, SUCCESS, FAILURE } from "../constants/api";
 
 const levelsProvider = createContext();
 const { Provider, Consumer } = levelsProvider;
