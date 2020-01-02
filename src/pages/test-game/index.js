@@ -11,12 +11,15 @@ import style from "./test-game.module.css";
 
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
 import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
-import axios from "axios";
+import api from "../../utils/api";
+import { POST } from "../../constants/api";
+import useUser from "../../utils/useUser";
 
 export default ({ location }) => {
   const level = location.state.level;
 
   const { reload } = useCommunityLevels();
+  const { user } = useUser();
 
   const [map, setMap] = useState(level);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -94,29 +97,31 @@ export default ({ location }) => {
   };
 
   const saveLevel = () => {
-    const levelToSave = {
-      name: levelName,
-      creator: "toto",
-      content: JSON.stringify(level)
-    };
-
-    axios
-      .post("http://localhost:8000/community-level", levelToSave)
-      .then(res => {
+    api({
+      method: POST,
+      url: "http://localhost:8000/community-level",
+      params: {
+        name: levelName,
+        creator: user ? user.pseudo : "",
+        content: JSON.stringify(level)
+      }
+    }).then(response => {
+      if (response.ok) {
         Alert.success("Votre niveau a été enregistré !", {
           timeout: 2000
         });
         reload();
         navigate("/select-community-level");
-      })
-      .catch(err => {
+      } else {
         Alert.error(
-          "Erreur lors de l'enregistrement de votre niveau : " + err,
+          "Erreur lors de l'enregistrement de votre niveau : " +
+            response.message,
           {
             timeout: 2000
           }
         );
-      });
+      }
+    });
   };
 
   return (

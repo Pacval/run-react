@@ -19,7 +19,7 @@ export default ({ level }) => {
       >
         {level.name}
         <br />
-        par {level.creator}
+        {!!level.creator && <>par {level.creator}</>}
       </Link>
     </div>
   );

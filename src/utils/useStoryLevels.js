@@ -1,5 +1,14 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { NOT_REQUESTED, LOADING, SUCCESS, FAILURE } from "../constants/api";
+
+import {
+  NOT_REQUESTED,
+  LOADING,
+  SUCCESS,
+  FAILURE,
+  GET
+} from "../constants/api";
+
+import api from "./api";
 
 const levelsProvider = createContext();
 const { Provider, Consumer } = levelsProvider;
@@ -13,21 +22,18 @@ export const StoryLevelsProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       setStatus(LOADING);
-      const response = await fetch("http://localhost:8000/story-level")
-        .then(r => {
-          if (r.status === 200) {
-            return r.json().then(d => ({ ...d, ok: true }));
-          }
-          return { ok: false };
-        })
-        .catch(() => ({ ok: false }));
-
-      if (response.ok) {
-        setStatus(SUCCESS);
-        setLevels(response.payload);
-      } else {
-        setStatus(FAILURE);
-      }
+      api({
+        method: GET,
+        url: "http://localhost:8000/story-level",
+        params: {}
+      }).then(response => {
+        if (response.ok) {
+          setStatus(SUCCESS);
+          setLevels(response.payload);
+        } else {
+          setStatus(FAILURE);
+        }
+      });
     })();
     setLevels([]);
   }, []);

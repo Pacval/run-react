@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "@reach/router";
+
 import useUser from "../../utils/useUser";
 
 export default () => {
@@ -16,6 +18,7 @@ export default () => {
 
   return (
     <>
+      <Link to="/">Revenir au menu</Link>
       {!user ? (
         <>
           <label>
