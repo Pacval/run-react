@@ -5,6 +5,7 @@ VISUEL
 - revoir css pour mieux placer boutons retour
 - améliorer écran création niveau
 - page crédits (librairies + lien github / linkedin)
+- barre horizontale top avec nom user ou lien vers connexion
 
 
 GAMEPLAY
