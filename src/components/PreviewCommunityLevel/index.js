@@ -10,7 +10,7 @@ export default ({ level }) => {
     <div className={style.previewMainDiv}>
       <Link
         to="/game"
-        state={{ origin: COMMUNITY, initialMap: level.content }}
+        state={{ origin: COMMUNITY, level: level }}
         className={[
           style.levelButton,
           style.notCompleted

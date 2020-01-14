@@ -6,9 +6,11 @@ import style from "./select-story-level.module.css";
 import { SUCCESS, LOADING, FAILURE } from "../../constants/api";
 import useStoryLevels from "../../utils/useStoryLevels";
 import PreviewStoryLevel from "../../components/PreviewStoryLevel";
+import useUser from "../../utils/useUser";
 
 export default () => {
   const { levels, status } = useStoryLevels();
+  const { userProgressStory } = useUser();
 
   return (
     <div className={style.fullPage}>
@@ -21,7 +23,11 @@ export default () => {
           {levels
             .sort((a, b) => a.number - b.number)
             .map(level => (
-              <PreviewStoryLevel key={level.id} level={level} />
+              <PreviewStoryLevel
+                key={level.id}
+                level={level}
+                completed={!!userProgressStory.find(lvl => lvl.id === level.id)}
+              />
             ))}
         </div>
       )}

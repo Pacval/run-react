@@ -10,10 +10,15 @@ import style from "./game.module.css";
 import { UP, DOWN, LEFT, RIGHT } from "../../constants/actionMoves";
 import { PLAYING, VICTORY, DEFEAT } from "../../constants/gameStates";
 import { STORY } from "../../constants/levelTypes";
+import useUser from "../../utils/useUser";
 
 export default ({ location }) => {
   const origin = location.state.origin;
-  const initialMap = location.state.initialMap;
+  const level = location.state.level;
+
+  const initialMap = JSON.parse(level.content);
+
+  const { addCompletedLevel } = useUser();
 
   const [map, setMap] = useState(initialMap);
   const [possibleMoves, setPossibleMoves] = useState([]);
@@ -27,6 +32,7 @@ export default ({ location }) => {
       // condition de victoire
       if (map.player.x === map.exit.x && map.player.y === map.exit.y) {
         setResult(VICTORY);
+        addCompletedLevel({ levelType: origin, levelId: level.id });
       } else {
         if (
           map.player.y > 0 &&

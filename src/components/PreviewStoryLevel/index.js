@@ -5,16 +5,15 @@ import style from "./preview-story-level.module.css";
 
 import { STORY } from "../../constants/levelTypes.js";
 
-export default ({ level }) => {
+export default ({ level, completed }) => {
   return (
     <div className={style.previewMainDiv}>
       <Link
         to="/game"
-        state={{ origin: STORY, initialMap: level.content }}
+        state={{ origin: STORY, level: level }}
         className={[
           style.levelButton,
-          style.notCompleted
-          // level.completed ? style.completed : style.notCompleted  => a remplacer via la table de progress
+          completed ? style.completed : style.notCompleted
         ].join(" ")}
       >
         {level.number}
