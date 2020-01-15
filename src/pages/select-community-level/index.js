@@ -7,9 +7,11 @@ import style from "./select-community-level.module.css";
 import useCommunityLevels from "../../utils/useCommunityLevels";
 import { SUCCESS, LOADING, FAILURE } from "../../constants/api";
 import PreviewCommunityLevel from "../../components/PreviewCommunityLevel";
+import useUser from "../../utils/useUser";
 
 export default () => {
   const { levels, status, reload } = useCommunityLevels();
+  const { userProgressCommunity = [] } = useUser();
 
   return (
     <div className={style.fullPage}>
@@ -23,7 +25,13 @@ export default () => {
       {status === SUCCESS && !!levels.length && (
         <div className={style.divLevels}>
           {levels.map(level => (
-            <PreviewCommunityLevel key={level.id} level={level} />
+            <PreviewCommunityLevel
+              key={level.id}
+              level={level}
+              completed={
+                !!userProgressCommunity.find(lvl => lvl.id === level.id)
+              }
+            />
           ))}
         </div>
       )}

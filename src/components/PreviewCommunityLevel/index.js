@@ -5,7 +5,7 @@ import style from "./preview-community-level.module.css";
 
 import { COMMUNITY } from "../../constants/levelTypes.js";
 
-export default ({ level }) => {
+export default ({ level, completed }) => {
   return (
     <div className={style.previewMainDiv}>
       <Link
@@ -13,8 +13,7 @@ export default ({ level }) => {
         state={{ origin: COMMUNITY, level: level }}
         className={[
           style.levelButton,
-          style.notCompleted
-          // level.completed ? style.completed : style.notCompleted  => a remplacer via la table de progress
+          completed ? style.completed : style.notCompleted
         ].join(" ")}
       >
         {level.name}

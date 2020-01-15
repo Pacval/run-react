@@ -10,7 +10,7 @@ import useUser from "../../utils/useUser";
 
 export default () => {
   const { levels, status } = useStoryLevels();
-  const { userProgressStory } = useUser();
+  const { userProgressStory = [] } = useUser();
 
   return (
     <div className={style.fullPage}>

@@ -69,7 +69,7 @@ export default ({ location }) => {
       }
     }
     setPossibleMoves(newPossibleMoves);
-  }, [map, result]);
+  }, [addCompletedLevel, level, map, origin, result]);
 
   const resetGame = () => {
     setMap(initialMap);

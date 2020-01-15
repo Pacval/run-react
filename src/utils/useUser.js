@@ -10,11 +10,11 @@ const userProvider = createContext();
 const { Provider, Consumer } = userProvider;
 
 const noUser = "";
-const emptyArray = [];
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(noUser);
-  const [userProgressStory, setUserProgressStory] = useState(emptyArray);
+  const [userProgressStory, setUserProgressStory] = useState([]);
+  const [userProgressCommunity, setUserProgressCommunity] = useState([]);
 
   const [dummy, setDummy] = useState({});
 
@@ -38,29 +38,55 @@ export const UserProvider = ({ children }) => {
 
   // récupération des niveaux complétés par l'utilisateur
   useEffect(() => {
-    if (!!user && !!user.id) {
-      api({
-        method: GET,
-        url: "http://localhost:8000/user-progress-story/" + user.id
-      }).then(response => {
-        if (response.ok) {
-          setUserProgressStory(response.payload);
-        } else {
-          setUserProgressStory(emptyArray);
-          Alert.error(
-            "Erreur lors de la récupérations des niveaux complétés : " +
-              response.message,
-            {
-              timeout: 2000
-            }
-          );
-        }
-      });
+    if (!user) {
+      return;
     }
+
+    // story
+    api({
+      method: GET,
+      url: "http://localhost:8000/user-progress-story/" + user.id
+    }).then(response => {
+      if (response.ok) {
+        setUserProgressStory(response.payload);
+      } else {
+        setUserProgressStory([]);
+        Alert.error(
+          "Erreur lors de la récupérations des niveaux complétés (story) : " +
+            response.message,
+          {
+            timeout: 2000
+          }
+        );
+      }
+    });
+
+    // community
+    api({
+      method: GET,
+      url: "http://localhost:8000/user-progress-community/" + user.id
+    }).then(response => {
+      if (response.ok) {
+        setUserProgressCommunity(response.payload);
+      } else {
+        setUserProgressCommunity([]);
+        Alert.error(
+          "Erreur lors de la récupérations des niveaux complétés (community) : " +
+            response.message,
+          {
+            timeout: 2000
+          }
+        );
+      }
+    });
   }, [user, dummy]);
 
   // ajout d'un niveau complété, story ou community
   const addCompletedLevel = ({ levelType, levelId }) => {
+    if (!user) {
+      return;
+    }
+
     if (levelType === STORY) {
       if (!!userProgressStory.find(level => level.id === levelId)) {
         return;
@@ -75,7 +101,7 @@ export const UserProvider = ({ children }) => {
           setDummy({});
         } else {
           Alert.error(
-            "Erreur lors de la mise à jour des niveaux complétés : " +
+            "Erreur lors de la mise à jour des niveaux complétés (story) : " +
               response.message,
             {
               timeout: 2000
@@ -84,10 +110,31 @@ export const UserProvider = ({ children }) => {
         }
       });
     } else if (levelType === COMMUNITY) {
+      if (!!userProgressCommunity.find(level => level.id === levelId)) {
+        return;
+      }
+      api({
+        method: POST,
+        url: "http://localhost:8000/user-progress-community/",
+        params: { userId: user.id, communityLevelId: levelId, score: 0 }
+      }).then(response => {
+        if (response.ok) {
+          // on recharge ses niveaux complétés
+          setDummy({});
+        } else {
+          Alert.error(
+            "Erreur lors de la mise à jour des niveaux complétés (community) : " +
+              response.message,
+            {
+              timeout: 2000
+            }
+          );
+        }
+      });
     }
   };
 
-  const reloadUserStoryProgress = () => {
+  const reloadUserProgress = () => {
     setDummy({});
   };
 
@@ -97,8 +144,9 @@ export const UserProvider = ({ children }) => {
         user,
         authenticate,
         userProgressStory,
+        userProgressCommunity,
         addCompletedLevel,
-        reloadUserStoryProgress
+        reloadUserProgress
       }}
     >
       {children}
