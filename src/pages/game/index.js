@@ -135,7 +135,7 @@ export default ({ location }) => {
         >
           Quitter
         </Link>
-        <Playground map={map} />
+        <Playground map={map} onClick={() => {}} />
       </div>
       <div className={style.actionPanelDiv}>
         <ActionPanel
