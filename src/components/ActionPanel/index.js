@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import keyboardKey from "keyboard-key";
 
 import style from "./actionpanel.module.css";
 import { UP, DOWN, LEFT, RIGHT, TORCH, AXE } from "../../constants/actionMoves";
@@ -6,6 +7,21 @@ import { UP, DOWN, LEFT, RIGHT, TORCH, AXE } from "../../constants/actionMoves";
 import ActionButton from "../ActionButton";
 
 export default ({ doMove, possibleMoves }) => {
+  const handleUserKeyPress = event => {
+    const key = keyboardKey.getKey(event);
+    if (possibleMoves.includes(key)) {
+      doMove(key);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  });
+
   return (
     <>
       <div className={style.movementPanel}>
